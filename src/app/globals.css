@@ -1,26 +1,49 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-adm-bg: #0d1117;
+  --color-adm-surface: #161b22;
+  --color-adm-card: #1c2330;
+  --color-adm-border: #30363d;
+  --color-adm-border2: #21262d;
+  --color-adm-text: #e6edf3;
+  --color-adm-muted: #7d8590;
+  --color-adm-accent: #2f81f7;
+  --color-adm-accent2: #3fb950;
+  --color-adm-warn: #d29922;
+  --color-adm-danger: #f85149;
+  --color-adm-teal: #39c5cf;
+
+  --color-pat-bg: #f0f4ff;
+  --color-pat-card: #ffffff;
+  --color-pat-navy: #1c3557;
+  --color-pat-blue: #2563eb;
+  --color-pat-blue-soft: #dbeafe;
+  --color-pat-teal: #0d9488;
+  --color-pat-teal-soft: #ccfbf1;
+  --color-pat-green: #16a34a;
+  --color-pat-green-soft: #dcfce7;
+  --color-pat-amber: #d97706;
+  --color-pat-amber-soft: #fef3c7;
+  --color-pat-red: #dc2626;
+  --color-pat-red-soft: #fee2e2;
+  --color-pat-text: #1a2332;
+  --color-pat-muted: #64748b;
+  --color-pat-border: #e2e8f0;
+
+  --font-sora: var(--font-sora), sans-serif;
+  --font-lora: var(--font-lora), serif;
+  --font-mono: var(--font-ibm-plex-mono), monospace;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
+html,
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  height: 100%;
+  font-family: var(--font-sora);
+}
+
+/* Base custom classes from old index.html */
+.scrollbar-hide::-webkit-scrollbar {
+  width: 0;
+  height: 0;
 }
