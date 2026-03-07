@@ -27,8 +27,8 @@ export function Modal({ isOpen, onClose, title, children, footer, className }: M
         <div className="fixed inset-0 z-[500] flex items-center justify-center bg-black/70 backdrop-blur-sm p-4 animate-in fade-in duration-200">
             <div className={cn("bg-adm-surface border border-adm-border rounded-xl w-full max-w-lg max-h-[90vh] shadow-2xl flex flex-col animate-in zoom-in-95 duration-200", className)}>
                 {title && (
-                    <div className="px-5 py-[18px] border-b border-adm-border flex justify-between items-center shrink-0">
-                        <h3 className="text-[15px] font-bold text-adm-text">{title}</h3>
+                    <div className="px-5 py-18px border-b border-adm-border flex justify-between items-center shrink-0">
+                        <h3 className="text-15 font-bold text-adm-text">{title}</h3>
                         <button
                             onClick={onClose}
                             className="w-7 h-7 flex items-center justify-center rounded-md bg-adm-card border border-adm-border text-adm-muted hover:text-white transition-colors"

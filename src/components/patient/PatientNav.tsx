@@ -18,7 +18,7 @@ export function PatientNav({ activeTab, onTabChange }: PatientNavProps) {
     ];
 
     return (
-        <div className="flex md:flex-col bg-pat-card border-t md:border-t-0 md:border-r border-pat-border px-2.5 py-2 md:py-6 md:w-[100px] shrink-0 justify-around md:justify-start gap-0 md:gap-4 md:items-center">
+        <div className="flex md:flex-col bg-pat-card border-t md:border-t-0 md:border-r border-pat-border px-2.5 py-2 md:py-6 md:w-100px shrink-0 justify-around md:justify-start gap-0 md:gap-4 md:items-center">
             {tabs.map(tab => {
                 const isActive = activeTab === tab.id;
                 const Icon = tab.icon;
@@ -28,10 +28,10 @@ export function PatientNav({ activeTab, onTabChange }: PatientNavProps) {
                         onClick={() => onTabChange(tab.id)}
                         className={`flex-1 md:flex-none md:w-full flex flex-col items-center justify-center gap-1.5 cursor-pointer p-2 rounded-xl transition-all ${isActive ? 'bg-pat-blue-soft' : 'hover:bg-pat-bg'}`}
                     >
-                        <div className={`w-10 h-10 rounded-[12px] flex items-center justify-center ${isActive ? 'bg-pat-navy text-white shadow-md' : 'text-pat-muted'}`}>
+                        <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${isActive ? 'bg-pat-navy text-white shadow-md' : 'text-pat-muted'}`}>
                             <Icon size={20} strokeWidth={isActive ? 2.5 : 1.8} />
                         </div>
-                        <span className={`text-[10px] md:text-[11px] font-bold tracking-wide ${isActive ? 'text-pat-navy' : 'text-pat-muted'}`}>
+                        <span className={`text-10 md:text-11 font-bold tracking-wide ${isActive ? 'text-pat-navy' : 'text-pat-muted'}`}>
                             {tab.label}
                         </span>
                     </div>

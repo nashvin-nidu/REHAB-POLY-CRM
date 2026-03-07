@@ -57,14 +57,14 @@ export default function AdminDashboard() {
             Discharged: 'text-adm-muted bg-adm-muted/10 border-adm-muted/20',
             Critical: 'text-adm-danger bg-adm-danger/10 border-adm-danger/20'
         };
-        return <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wide border ${map[status] || map.Active}`}>{status}</span>;
+        return <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded text-10 font-bold uppercase tracking-wide border ${map[status] || map.Active}`}>{status}</span>;
     };
 
     return (
         <div className="p-6 pb-20">
             <div className="flex justify-between items-start mb-6">
                 <div>
-                    <h1 className="text-[20px] font-bold text-adm-text tracking-tight">Clinical Dashboard</h1>
+                    <h1 className="text-20 font-bold text-adm-text tracking-tight">Clinical Dashboard</h1>
                     <p className="text-xs text-adm-muted mt-1 font-mono">— {new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</p>
                 </div>
                 <div className="flex gap-2">
@@ -76,25 +76,25 @@ export default function AdminDashboard() {
             </div>
 
             <div className="grid grid-cols-4 gap-4 mb-4">
-                <div className="bg-adm-card border border-adm-border rounded-xl p-[18px] relative overflow-hidden after:absolute after:top-0 after:right-0 after:w-[3px] after:h-full after:bg-adm-accent">
-                    <div className="text-[11px] text-adm-muted font-medium uppercase tracking-wide mb-2">Total Patients</div>
-                    <div className="text-[28px] font-extrabold text-adm-text tracking-tight leading-none">{patients.length}</div>
-                    <div className="text-[11px] mt-1.5 font-mono text-adm-accent2">{patients.length} registered</div>
+                <div className="bg-adm-card border border-adm-border rounded-xl p-18px relative overflow-hidden after:absolute after:top-0 after:right-0 after:w-3px after:h-full after:bg-adm-accent">
+                    <div className="text-11 text-adm-muted font-medium uppercase tracking-wide mb-2">Total Patients</div>
+                    <div className="text-28 font-extrabold text-adm-text tracking-tight leading-none">{patients.length}</div>
+                    <div className="text-11 mt-1.5 font-mono text-adm-accent2">{patients.length} registered</div>
                 </div>
-                <div className="bg-adm-card border border-adm-border rounded-xl p-[18px] relative overflow-hidden after:absolute after:top-0 after:right-0 after:w-[3px] after:h-full after:bg-adm-accent2">
-                    <div className="text-[11px] text-adm-muted font-medium uppercase tracking-wide mb-2">Active Rehab</div>
-                    <div className="text-[28px] font-extrabold text-adm-text tracking-tight leading-none">{activePatients}</div>
-                    <div className="text-[11px] mt-1.5 font-mono text-adm-accent2">In treatment</div>
+                <div className="bg-adm-card border border-adm-border rounded-xl p-18px relative overflow-hidden after:absolute after:top-0 after:right-0 after:w-3px after:h-full after:bg-adm-accent2">
+                    <div className="text-11 text-adm-muted font-medium uppercase tracking-wide mb-2">Active Rehab</div>
+                    <div className="text-28 font-extrabold text-adm-text tracking-tight leading-none">{activePatients}</div>
+                    <div className="text-11 mt-1.5 font-mono text-adm-accent2">In treatment</div>
                 </div>
-                <div className="bg-adm-card border border-adm-border rounded-xl p-[18px] relative overflow-hidden after:absolute after:top-0 after:right-0 after:w-[3px] after:h-full after:bg-adm-warn">
-                    <div className="text-[11px] text-adm-muted font-medium uppercase tracking-wide mb-2">Avg Recovery %</div>
-                    <div className="text-[28px] font-extrabold text-adm-text tracking-tight leading-none">{avgRecovery}%</div>
-                    <div className="text-[11px] mt-1.5 font-mono text-adm-accent2">↑ improving</div>
+                <div className="bg-adm-card border border-adm-border rounded-xl p-18px relative overflow-hidden after:absolute after:top-0 after:right-0 after:w-3px after:h-full after:bg-adm-warn">
+                    <div className="text-11 text-adm-muted font-medium uppercase tracking-wide mb-2">Avg Recovery %</div>
+                    <div className="text-28 font-extrabold text-adm-text tracking-tight leading-none">{avgRecovery}%</div>
+                    <div className="text-11 mt-1.5 font-mono text-adm-accent2">↑ improving</div>
                 </div>
-                <div className="bg-adm-card border border-adm-border rounded-xl p-[18px] relative overflow-hidden after:absolute after:top-0 after:right-0 after:w-[3px] after:h-full after:bg-adm-danger">
-                    <div className="text-[11px] text-adm-muted font-medium uppercase tracking-wide mb-2">Critical Alerts</div>
-                    <div className="text-[28px] font-extrabold text-adm-text tracking-tight leading-none">{criticalPatients}</div>
-                    <div className="text-[11px] mt-1.5 font-mono text-adm-danger">Needs attention</div>
+                <div className="bg-adm-card border border-adm-border rounded-xl p-18px relative overflow-hidden after:absolute after:top-0 after:right-0 after:w-3px after:h-full after:bg-adm-danger">
+                    <div className="text-11 text-adm-muted font-medium uppercase tracking-wide mb-2">Critical Alerts</div>
+                    <div className="text-28 font-extrabold text-adm-text tracking-tight leading-none">{criticalPatients}</div>
+                    <div className="text-11 mt-1.5 font-mono text-adm-danger">Needs attention</div>
                 </div>
             </div>
 
@@ -105,19 +105,19 @@ export default function AdminDashboard() {
 
             <div className="bg-adm-card border border-adm-border rounded-xl mb-4 overflow-hidden">
                 <div className="p-4 border-b border-adm-border2 flex justify-between items-center">
-                    <div className="text-[13px] font-semibold text-adm-text">Patient Overview</div>
+                    <div className="text-13 font-semibold text-adm-text">Patient Overview</div>
                     <Link href="/admin/patients"><Button variant="ghost" size="sm">View All →</Button></Link>
                 </div>
                 <div className="overflow-x-auto">
                     <table className="w-full text-left border-collapse">
                         <thead>
                             <tr>
-                                <th className="text-[10px] font-bold tracking-wide uppercase text-adm-muted p-3 px-4 bg-adm-surface border-b border-adm-border">Patient</th>
-                                <th className="text-[10px] font-bold tracking-wide uppercase text-adm-muted p-3 px-4 bg-adm-surface border-b border-adm-border">Injury</th>
-                                <th className="text-[10px] font-bold tracking-wide uppercase text-adm-muted p-3 px-4 bg-adm-surface border-b border-adm-border">AIS</th>
-                                <th className="text-[10px] font-bold tracking-wide uppercase text-adm-muted p-3 px-4 bg-adm-surface border-b border-adm-border">Week</th>
-                                <th className="text-[10px] font-bold tracking-wide uppercase text-adm-muted p-3 px-4 bg-adm-surface border-b border-adm-border">Recovery</th>
-                                <th className="text-[10px] font-bold tracking-wide uppercase text-adm-muted p-3 px-4 bg-adm-surface border-b border-adm-border">Status</th>
+                                <th className="text-10 font-bold tracking-wide uppercase text-adm-muted p-3 px-4 bg-adm-surface border-b border-adm-border">Patient</th>
+                                <th className="text-10 font-bold tracking-wide uppercase text-adm-muted p-3 px-4 bg-adm-surface border-b border-adm-border">Injury</th>
+                                <th className="text-10 font-bold tracking-wide uppercase text-adm-muted p-3 px-4 bg-adm-surface border-b border-adm-border">AIS</th>
+                                <th className="text-10 font-bold tracking-wide uppercase text-adm-muted p-3 px-4 bg-adm-surface border-b border-adm-border">Week</th>
+                                <th className="text-10 font-bold tracking-wide uppercase text-adm-muted p-3 px-4 bg-adm-surface border-b border-adm-border">Recovery</th>
+                                <th className="text-10 font-bold tracking-wide uppercase text-adm-muted p-3 px-4 bg-adm-surface border-b border-adm-border">Status</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -129,20 +129,20 @@ export default function AdminDashboard() {
                                                 {p.firstName[0]}{p.lastName[0]}
                                             </div>
                                             <div>
-                                                <div className="text-[13px] font-semibold text-adm-text">{p.firstName} {p.lastName}</div>
-                                                <div className="font-mono text-[11px] text-adm-muted">#P{String(p.id).padStart(4, '0')}</div>
+                                                <div className="text-13 font-semibold text-adm-text">{p.firstName} {p.lastName}</div>
+                                                <div className="font-mono text-11 text-adm-muted">#P{String(p.id).padStart(4, '0')}</div>
                                             </div>
                                         </div>
                                     </td>
-                                    <td className="p-3 px-4 text-xs"><span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wide border text-adm-teal bg-adm-teal/10 border-adm-teal/20">{p.injuryLevel}</span></td>
-                                    <td className="p-3 px-4 text-xs"><span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wide border text-adm-muted bg-adm-muted/10 border-adm-muted/20">{p.ais}</span></td>
-                                    <td className="p-3 px-4 text-[11px] font-mono text-adm-muted">W{p.week}</td>
+                                    <td className="p-3 px-4 text-xs"><span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-10 font-bold uppercase tracking-wide border text-adm-teal bg-adm-teal/10 border-adm-teal/20">{p.injuryLevel}</span></td>
+                                    <td className="p-3 px-4 text-xs"><span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-10 font-bold uppercase tracking-wide border text-adm-muted bg-adm-muted/10 border-adm-muted/20">{p.ais}</span></td>
+                                    <td className="p-3 px-4 text-11 font-mono text-adm-muted">W{p.week}</td>
                                     <td className="p-3 px-4">
                                         <div className="flex items-center gap-2">
                                             <div className="h-1.5 w-14 bg-adm-border rounded-full overflow-hidden">
                                                 <div className="h-full bg-adm-accent" style={{ width: `${p.recoveryPct}%` }} />
                                             </div>
-                                            <span className="text-[10px] font-bold text-adm-text">{p.recoveryPct}%</span>
+                                            <span className="text-10 font-bold text-adm-text">{p.recoveryPct}%</span>
                                         </div>
                                     </td>
                                     <td className="p-3 px-4">{getStatusTag(p.status)}</td>
@@ -157,10 +157,10 @@ export default function AdminDashboard() {
                 <ChartCard title="Motor Domain Averages" type="bar" data={motorData} />
                 <div className="bg-adm-card border border-adm-border rounded-xl overflow-hidden flex flex-col">
                     <div className="p-4 border-b border-adm-border2 flex justify-between items-center shrink-0">
-                        <div className="text-[13px] font-semibold text-adm-text">Activity Feed</div>
-                        <div className="text-[11px] font-mono text-adm-muted">4 events</div>
+                        <div className="text-13 font-semibold text-adm-text">Activity Feed</div>
+                        <div className="text-11 font-mono text-adm-muted">4 events</div>
                     </div>
-                    <div className="p-4 max-h-[220px] overflow-y-auto space-y-3 scrollbar-hide">
+                    <div className="p-4 max-h-220px overflow-y-auto space-y-3 scrollbar-hide">
                         {[
                             { time: '10:45 AM', msg: 'James Mitchell started daily exercise routine.', color: '#2f81f7' },
                             { time: '09:30 AM', msg: 'Dr. Sarah Chen updated clinical notes for Maria.', color: '#3fb950' },
@@ -168,8 +168,8 @@ export default function AdminDashboard() {
                             { time: 'Yesterday', msg: 'Robert Kim reached 75% recovery milestone!', color: '#d29922' },
                         ].map((log, i) => (
                             <div key={i} className="flex gap-2.5 items-start">
-                                <div className="font-mono text-[10px] text-adm-muted w-16 shrink-0 pt-[2px]">{log.time}</div>
-                                <div className="w-1.5 h-1.5 rounded-full mt-[6px] shrink-0" style={{ background: log.color }} />
+                                <div className="font-mono text-10 text-adm-muted w-16 shrink-0 pt-0.5">{log.time}</div>
+                                <div className="w-1.5 h-1.5 rounded-full mt-1.5 shrink-0" style={{ background: log.color }} />
                                 <div className="text-xs text-adm-muted leading-relaxed">{log.msg}</div>
                             </div>
                         ))}

@@ -25,14 +25,14 @@ export default function PatientsList() {
             Discharged: 'text-adm-muted bg-adm-muted/10 border-adm-muted/20',
             Critical: 'text-adm-danger bg-adm-danger/10 border-adm-danger/20'
         };
-        return <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wide border ${map[status] || map.Active}`}>{status}</span>;
+        return <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded text-10 font-bold uppercase tracking-wide border ${map[status] || map.Active}`}>{status}</span>;
     };
 
     return (
         <div className="p-6 pb-20">
             <div className="flex justify-between items-start mb-6">
                 <div>
-                    <h1 className="text-[20px] font-bold text-adm-text tracking-tight">All Patients</h1>
+                    <h1 className="text-20 font-bold text-adm-text tracking-tight">All Patients</h1>
                     <p className="text-xs text-adm-muted mt-1 font-mono">{patients.length} registered</p>
                 </div>
                 <Link href="/admin/add-patient">
@@ -41,20 +41,20 @@ export default function PatientsList() {
             </div>
 
             <div className="flex gap-3 mb-4">
-                <div className="relative w-[280px]">
+                <div className="relative w-280px">
                     <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-adm-muted" />
                     <input
                         type="text"
                         placeholder="Search patients..."
                         value={search}
                         onChange={(e) => setSearch(e.target.value)}
-                        className="w-full bg-adm-surface border border-adm-border rounded-md py-[7px] pl-9 pr-3 text-[12px] text-adm-text outline-none focus:border-adm-accent transition-colors font-sora"
+                        className="w-full bg-adm-surface border border-adm-border rounded-md py-7px pl-9 pr-3 text-12 text-adm-text outline-none focus:border-adm-accent transition-colors font-sora"
                     />
                 </div>
                 <select
                     value={filter}
                     onChange={(e) => setFilter(e.target.value)}
-                    className="bg-adm-surface border border-adm-border rounded-md px-3 py-[7px] text-[12px] text-adm-text outline-none focus:border-adm-accent font-sora min-w-[130px]"
+                    className="bg-adm-surface border border-adm-border rounded-md px-3 py-7px text-12 text-adm-text outline-none focus:border-adm-accent font-sora min-w-130px"
                 >
                     <option value="">All Status</option>
                     <option value="Active">Active</option>
@@ -68,13 +68,13 @@ export default function PatientsList() {
                     <table className="w-full text-left border-collapse">
                         <thead>
                             <tr>
-                                <th className="text-[10px] font-bold tracking-wide uppercase text-adm-muted p-3 px-4 bg-adm-surface border-b border-adm-border">Patient</th>
-                                <th className="text-[10px] font-bold tracking-wide uppercase text-adm-muted p-3 px-4 bg-adm-surface border-b border-adm-border">Age/Gender</th>
-                                <th className="text-[10px] font-bold tracking-wide uppercase text-adm-muted p-3 px-4 bg-adm-surface border-b border-adm-border">Injury</th>
-                                <th className="text-[10px] font-bold tracking-wide uppercase text-adm-muted p-3 px-4 bg-adm-surface border-b border-adm-border">AIS</th>
-                                <th className="text-[10px] font-bold tracking-wide uppercase text-adm-muted p-3 px-4 bg-adm-surface border-b border-adm-border">Week</th>
-                                <th className="text-[10px] font-bold tracking-wide uppercase text-adm-muted p-3 px-4 bg-adm-surface border-b border-adm-border">Recovery</th>
-                                <th className="text-[10px] font-bold tracking-wide uppercase text-adm-muted p-3 px-4 bg-adm-surface border-b border-adm-border">Status</th>
+                                <th className="text-10 font-bold tracking-wide uppercase text-adm-muted p-3 px-4 bg-adm-surface border-b border-adm-border">Patient</th>
+                                <th className="text-10 font-bold tracking-wide uppercase text-adm-muted p-3 px-4 bg-adm-surface border-b border-adm-border">Age/Gender</th>
+                                <th className="text-10 font-bold tracking-wide uppercase text-adm-muted p-3 px-4 bg-adm-surface border-b border-adm-border">Injury</th>
+                                <th className="text-10 font-bold tracking-wide uppercase text-adm-muted p-3 px-4 bg-adm-surface border-b border-adm-border">AIS</th>
+                                <th className="text-10 font-bold tracking-wide uppercase text-adm-muted p-3 px-4 bg-adm-surface border-b border-adm-border">Week</th>
+                                <th className="text-10 font-bold tracking-wide uppercase text-adm-muted p-3 px-4 bg-adm-surface border-b border-adm-border">Recovery</th>
+                                <th className="text-10 font-bold tracking-wide uppercase text-adm-muted p-3 px-4 bg-adm-surface border-b border-adm-border">Status</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -88,21 +88,21 @@ export default function PatientsList() {
                                                     {p.firstName[0]}{p.lastName[0]}
                                                 </div>
                                                 <div>
-                                                    <div className="text-[13px] font-semibold text-adm-text">{p.firstName} {p.lastName}</div>
-                                                    <div className="font-mono text-[11px] text-adm-muted">#P{String(p.id).padStart(4, '0')}</div>
+                                                    <div className="text-13 font-semibold text-adm-text">{p.firstName} {p.lastName}</div>
+                                                    <div className="font-mono text-11 text-adm-muted">#P{String(p.id).padStart(4, '0')}</div>
                                                 </div>
                                             </div>
                                         </td>
                                         <td className="p-3 px-4 text-xs text-adm-muted font-mono">{age}y / {p.gender[0]}</td>
-                                        <td className="p-3 px-4 text-xs"><span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wide border text-adm-teal bg-adm-teal/10 border-adm-teal/20">{p.injuryLevel}</span></td>
-                                        <td className="p-3 px-4 text-xs"><span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wide border text-adm-muted bg-adm-muted/10 border-adm-muted/20">{p.ais}</span></td>
-                                        <td className="p-3 px-4 text-[11px] font-mono text-adm-muted">W{p.week}</td>
+                                        <td className="p-3 px-4 text-xs"><span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-10 font-bold uppercase tracking-wide border text-adm-teal bg-adm-teal/10 border-adm-teal/20">{p.injuryLevel}</span></td>
+                                        <td className="p-3 px-4 text-xs"><span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-10 font-bold uppercase tracking-wide border text-adm-muted bg-adm-muted/10 border-adm-muted/20">{p.ais}</span></td>
+                                        <td className="p-3 px-4 text-11 font-mono text-adm-muted">W{p.week}</td>
                                         <td className="p-3 px-4">
                                             <div className="flex items-center gap-2 w-24">
                                                 <div className="h-1.5 w-full bg-adm-border rounded-full overflow-hidden">
                                                     <div className="h-full bg-adm-accent" style={{ width: `${p.recoveryPct}%` }} />
                                                 </div>
-                                                <span className="text-[10px] font-bold text-adm-text w-6">{p.recoveryPct}%</span>
+                                                <span className="text-10 font-bold text-adm-text w-6">{p.recoveryPct}%</span>
                                             </div>
                                         </td>
                                         <td className="p-3 px-4">{getStatusTag(p.status)}</td>

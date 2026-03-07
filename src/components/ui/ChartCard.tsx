@@ -59,11 +59,11 @@ export function ChartCard({ title, subtitle, type, data, options, height = 210, 
 
     return (
         <div className={cn("bg-adm-card border border-adm-border rounded-xl overflow-hidden flex flex-col", className)}>
-            <div className="px-[18px] py-3.5 border-b border-adm-border2 flex items-center justify-between">
-                <h3 className="text-[13px] font-semibold text-adm-text">{title}</h3>
-                {subtitle && <span className="text-[11px] text-adm-muted font-mono">{subtitle}</span>}
+            <div className="px-18px py-3.5 border-b border-adm-border2 flex items-center justify-between">
+                <h3 className="text-13 font-semibold text-adm-text">{title}</h3>
+                {subtitle && <span className="text-11 text-adm-muted font-mono">{subtitle}</span>}
             </div>
-            <div className="p-[18px] relative w-full" style={{ height }}>
+            <div className="p-18px relative w-full" style={{ height }}>
                 {type === 'line' && <Line data={data as any} options={defaultOptions} />}
                 {type === 'bar' && <Bar data={data as any} options={defaultOptions} />}
                 {type === 'doughnut' && <Doughnut data={data as any} options={defaultOptions} />}

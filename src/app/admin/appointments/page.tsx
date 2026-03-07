@@ -13,7 +13,7 @@ export default function AppointmentsList() {
         <div className="p-6 pb-20">
             <div className="flex justify-between items-start mb-6">
                 <div>
-                    <h1 className="text-[20px] font-bold text-adm-text tracking-tight">Appointments</h1>
+                    <h1 className="text-20 font-bold text-adm-text tracking-tight">Appointments</h1>
                     <p className="text-xs text-adm-muted mt-1 font-mono">Upcoming and historical</p>
                 </div>
                 <Button variant="primary" size="sm"><Plus className="w-4 h-4" /> Schedule</Button>
@@ -24,12 +24,12 @@ export default function AppointmentsList() {
                     <table className="w-full text-left border-collapse">
                         <thead>
                             <tr>
-                                <th className="text-[10px] font-bold tracking-wide uppercase text-adm-muted p-3 px-4 bg-adm-surface border-b border-adm-border">Patient</th>
-                                <th className="text-[10px] font-bold tracking-wide uppercase text-adm-muted p-3 px-4 bg-adm-surface border-b border-adm-border">Type</th>
-                                <th className="text-[10px] font-bold tracking-wide uppercase text-adm-muted p-3 px-4 bg-adm-surface border-b border-adm-border">Date & Time</th>
-                                <th className="text-[10px] font-bold tracking-wide uppercase text-adm-muted p-3 px-4 bg-adm-surface border-b border-adm-border">Therapist</th>
-                                <th className="text-[10px] font-bold tracking-wide uppercase text-adm-muted p-3 px-4 bg-adm-surface border-b border-adm-border">Mode</th>
-                                <th className="text-[10px] font-bold tracking-wide uppercase text-adm-muted p-3 px-4 bg-adm-surface border-b border-adm-border">Status</th>
+                                <th className="text-10 font-bold tracking-wide uppercase text-adm-muted p-3 px-4 bg-adm-surface border-b border-adm-border">Patient</th>
+                                <th className="text-10 font-bold tracking-wide uppercase text-adm-muted p-3 px-4 bg-adm-surface border-b border-adm-border">Type</th>
+                                <th className="text-10 font-bold tracking-wide uppercase text-adm-muted p-3 px-4 bg-adm-surface border-b border-adm-border">Date & Time</th>
+                                <th className="text-10 font-bold tracking-wide uppercase text-adm-muted p-3 px-4 bg-adm-surface border-b border-adm-border">Therapist</th>
+                                <th className="text-10 font-bold tracking-wide uppercase text-adm-muted p-3 px-4 bg-adm-surface border-b border-adm-border">Mode</th>
+                                <th className="text-10 font-bold tracking-wide uppercase text-adm-muted p-3 px-4 bg-adm-surface border-b border-adm-border">Status</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -37,7 +37,7 @@ export default function AppointmentsList() {
                                 const pt = patients.find(p => p.id === app.patientId);
                                 return (
                                     <tr key={app.id} className="hover:bg-white/5 border-b border-adm-border2 last:border-none cursor-pointer transition-colors">
-                                        <td className="p-3 px-4 text-[13px] font-semibold text-adm-text">
+                                        <td className="p-3 px-4 text-13 font-semibold text-adm-text">
                                             {pt ? `${pt.firstName} ${pt.lastName}` : 'Unknown Patient'}
                                         </td>
                                         <td className="p-3 px-4 text-xs text-adm-muted">{app.type}</td>
@@ -49,7 +49,7 @@ export default function AppointmentsList() {
                                         </td>
                                         <td className="p-3 px-4 text-xs text-adm-muted">{app.therapist}</td>
                                         <td className="p-3 px-4">
-                                            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wide border text-adm-accent border-adm-accent/20 bg-adm-accent/10">
+                                            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-10 font-bold uppercase tracking-wide border text-adm-accent border-adm-accent/20 bg-adm-accent/10">
                                                 {app.mode}
                                             </span>
                                         </td>

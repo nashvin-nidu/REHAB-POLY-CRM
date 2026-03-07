@@ -63,7 +63,7 @@ function ToastItem({ message, type }: ToastOptions) {
     };
 
     return (
-        <div className={cn("bg-adm-card border border-adm-border rounded-lg px-3.5 py-2.5 flex items-center gap-2.5 shadow-xl min-w-[260px] max-w-[340px] pointer-events-auto animate-in slide-in-from-right-8 border-l-[3px]", borders[type])}>
+        <div className={cn("bg-adm-card border border-adm-border rounded-lg px-3.5 py-2.5 flex items-center gap-2.5 shadow-xl min-w-260px max-w-340px pointer-events-auto animate-in slide-in-from-right-8 border-l-[3px]", borders[type])}>
             {icons[type]}
             <span className="text-xs text-adm-text font-sora tracking-wide">{message}</span>
         </div>
