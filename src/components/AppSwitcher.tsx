@@ -41,16 +41,6 @@ export function AppSwitcher() {
                     Admin Dashboard
                     <span className="bg-adm-accent text-white rounded-full px-1.5 py-[0.5px] text-10 ml-0.5">{patientsCount}</span>
                 </Link>
-                <Link
-                    href="/"
-                    className={`px-4 py-1.5 rounded-md text-xs font-semibold flex items-center gap-1.5 transition-all ${!isAdmin ? 'text-adm-text bg-adm-card' : 'text-adm-muted hover:text-adm-text hover:bg-adm-surface'}`}
-                >
-                    <svg viewBox="0 0 24 24" className="w-13px h-13px stroke-current fill-none stroke-2">
-                        <rect x="5" y="2" width="14" height="20" rx="4" /><circle cx="12" cy="14" r="3" />
-                    </svg>
-                    Patient App + Download
-                    <span className="bg-pat-green text-white rounded-full px-1.5 py-[0.5px] text-10 ml-0.5">{patient?.firstName} {patient?.lastName?.[0] ?? ''}.</span>
-                </Link>
             </div>
 
             <div className="ml-auto flex items-center gap-2">

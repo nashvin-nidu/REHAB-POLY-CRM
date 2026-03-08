@@ -27,7 +27,15 @@ export default function LoginPage() {
                 setLoading(false);
                 return;
             }
-            router.push("/");
+
+            // Immediately fetch session to check role
+            const { data: sessionData } = await authClient.getSession();
+
+            if (sessionData?.user?.role === 'admin') {
+                router.push("/admin");
+            } else {
+                router.push("/");
+            }
         } catch {
             setError("Something went wrong. Please try again.");
         } finally {

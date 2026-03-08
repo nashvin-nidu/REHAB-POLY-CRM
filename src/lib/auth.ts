@@ -3,6 +3,7 @@ import { prismaAdapter } from "better-auth/adapters/prisma";
 // If your Prisma file is located elsewhere, you can change the path
 import { PrismaClient } from "../../generated/prisma/client";
 import { nextCookies } from "better-auth/next-js";
+import { admin } from "better-auth/plugins";
 
 const prisma = new PrismaClient();
 export const auth = betterAuth({
@@ -16,5 +17,5 @@ export const auth = betterAuth({
     secret: process.env.AUTH_SECRET,
     debug: true,
     trustedOrigins: [`${process.env.BETTER_AUTH_URL}`],
-    plugins: [nextCookies()],
+    plugins: [nextCookies(), admin()],
 });
