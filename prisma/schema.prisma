@@ -31,6 +31,8 @@ model User {
 
   @@unique([email])
   @@map("user")
+
+  patient       Patient?
 }
 
 model Session {
@@ -107,7 +109,9 @@ model Patient {
   dob         DateTime
   gender      String
   phone       String
-  email       String?
+  email       String
+  userId      String        @unique
+  user        User          @relation(fields: [userId], references: [id], onDelete: Cascade)
   injuryLevel String
   ais         String
   therapist   String?

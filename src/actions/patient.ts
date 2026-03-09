@@ -115,7 +115,7 @@ export async function createPatient(data: PatientFormValues) {
                 dob: new Date(validatedData.data.dob),
                 gender: validatedData.data.gender,
                 phone: validatedData.data.phone,
-                email: validatedData.data.email || null,
+                email: validatedData.data.email,
                 injuryLevel: validatedData.data.injuryLevel,
                 ais: validatedData.data.ais,
                 therapist: validatedData.data.therapist || null,
