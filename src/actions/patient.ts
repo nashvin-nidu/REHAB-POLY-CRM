@@ -121,6 +121,14 @@ export async function createPatient(data: PatientFormValues) {
                 therapist: validatedData.data.therapist || null,
                 program: validatedData.data.program || null,
                 notes: validatedData.data.notes || null,
+                user: {
+                    create: {
+                        id: crypto.randomUUID(),
+                        name: `${validatedData.data.firstName} ${validatedData.data.lastName}`,
+                        email: validatedData.data.email,
+                        role: 'patient',
+                    }
+                }
             }
         });
 
