@@ -121,6 +121,7 @@ export async function createPatient(data: PatientFormValues) {
                 therapist: validatedData.data.therapist || null,
                 program: validatedData.data.program || null,
                 notes: validatedData.data.notes || null,
+                status: validatedData.data.status,
                 user: {
                     create: {
                         id: crypto.randomUUID(),

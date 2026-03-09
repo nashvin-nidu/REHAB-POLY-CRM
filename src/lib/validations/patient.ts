@@ -11,7 +11,8 @@ export const patientSchema = z.object({
     ais: z.string().min(1, 'AIS classification is required'),
     therapist: z.string().optional().or(z.literal('')),
     program: z.string().optional().or(z.literal('')),
-    notes: z.string().optional().or(z.literal(''))
+    notes: z.string().optional().or(z.literal('')),
+    status: z.enum(['ACTIVE', 'CRITICAL'])
 });
 
 export type PatientFormValues = z.infer<typeof patientSchema>;
