@@ -141,3 +141,19 @@ export async function createPatient(data: PatientFormValues) {
     }
 }
 
+/**
+ * Updates a patient's status
+ */
+export async function updatePatientStatus(id: number, status: 'ACTIVE' | 'DISCHARGED' | 'CRITICAL') {
+    try {
+        const patient = await prisma.patient.update({
+            where: { id },
+            data: { status }
+        });
+        revalidatePath('/admin/patients');
+        return { success: true as const, data: patient };
+    } catch (error) {
+        console.error(`Error updating patient ${id} status:`, error);
+        return { success: false as const, error: 'Failed to update patient status' };
+    }
+}
