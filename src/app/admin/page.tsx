@@ -106,7 +106,7 @@ export default async function AdminDashboard() {
     }));
 
     return (
-        <div className="p-6 pb-20">
+        <div className="p-6 pb-19">
             <DashboardHeader />
 
             <StatsCards
