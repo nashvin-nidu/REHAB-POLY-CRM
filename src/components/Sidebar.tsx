@@ -32,7 +32,6 @@ export function Sidebar() {
         { name: 'Dashboard', href: '/admin', icon: LayoutDashboard },
         { section: 'Patients' },
         { name: 'All Patients', href: '/admin/patients', icon: Users, badge: counts.patients, badgeColor: 'bg-adm-accent/15 text-adm-accent' },
-        { name: 'Register Patient', href: '/admin/add-patient', icon: UserPlus },
         { section: 'Clinical' },
         { name: 'Exercise Library', href: '/admin/exercises', icon: Activity, badge: counts.exercises, badgeColor: 'bg-adm-accent/15 text-adm-accent' },
         { name: 'Progress Reports', href: '/admin/progress', icon: TrendingUp },

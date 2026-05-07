@@ -216,6 +216,122 @@ export async function verifyPatient(id: number) {
 }
 
 /**
+ * Verifies and sets up a patient with clinical details, exercises, and medications
+ */
+export async function verifyAndSetupPatient(
+    id: number, 
+    data: any
+) {
+    return updatePatient(id, { ...data, isVerified: true });
+}
+
+/**
+ * Updates a patient with all fields, exercises, and medications
+ */
+export async function updatePatient(
+    id: number, 
+    data: any
+) {
+    try {
+        await prisma.$transaction(async (tx) => {
+            // Update patient details
+            const updateData: any = {
+                firstName: data.firstName,
+                lastName: data.lastName,
+                dob: data.dob ? new Date(data.dob) : undefined,
+                gender: data.gender,
+                phone: data.phone,
+                email: data.email,
+                injuryLevel: data.injuryLevel,
+                ais: data.ais,
+                therapist: data.therapist,
+                program: data.program,
+                notes: data.notes,
+                status: data.status,
+            };
+            
+            if (data.isVerified) {
+                updateData.isVerified = true;
+                updateData.verifiedAt = new Date();
+            }
+
+            // clean up undefined values
+            Object.keys(updateData).forEach(key => updateData[key] === undefined && delete updateData[key]);
+
+            await tx.patient.update({
+                where: { id },
+                data: updateData
+            });
+
+            // Replace assigned exercises
+            if (data.exercises !== undefined) {
+                await tx.assignedExercise.deleteMany({ where: { patientId: id } });
+                if (data.exercises.length > 0) {
+                    await tx.assignedExercise.createMany({
+                        data: data.exercises.map((ex: any) => ({
+                            patientId: id,
+                            exerciseId: ex.id,
+                            durationMins: ex.duration,
+                            frequencyPerWeek: ex.freq
+                        }))
+                    });
+                }
+            }
+
+            // Replace medications
+            if (data.medications !== undefined) {
+                await tx.medication.deleteMany({ where: { patientId: id } });
+                if (data.medications.length > 0) {
+                    await tx.medication.createMany({
+                        data: data.medications.map((med: any) => ({
+                            patientId: id,
+                            name: med.name,
+                            dosage: med.dosage,
+                            time: med.time,
+                            taken: false
+                        }))
+                    });
+                }
+            }
+        });
+
+        // Handle report uploads if any (outside transaction because Cloudinary upload can be slow)
+        if (data.reports && data.reports.length > 0) {
+            const reportsData = [];
+            for (const report of data.reports) {
+                try {
+                    const uploadResponse = await cloudinary.uploader.upload(report.base64, {
+                        folder: 'neuropath/reports',
+                        resource_type: 'auto'
+                    });
+                    
+                    reportsData.push({
+                        patientId: id,
+                        name: report.name,
+                        type: report.type,
+                        url: uploadResponse.secure_url
+                    });
+                } catch (err) {
+                    console.error("Cloudinary upload error:", err);
+                }
+            }
+
+            if (reportsData.length > 0) {
+                await prisma.patientReport.createMany({
+                    data: reportsData
+                });
+            }
+        }
+
+        revalidatePath('/admin/patients');
+        return { success: true as const };
+    } catch (error) {
+        console.error(`Error updating patient ${id}:`, error);
+        return { success: false as const, error: 'Failed to update patient' };
+    }
+}
+
+/**
  * Fetches the current patient profile for the patient app.
  * For now, this just returns the first verified patient.
  */

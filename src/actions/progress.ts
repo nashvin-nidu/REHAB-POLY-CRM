@@ -1,6 +1,7 @@
 'use server';
 
 import prisma from '@/lib/prisma';
+import { revalidatePath } from 'next/cache';
 
 export async function getProgressChartData() {
     try {
@@ -37,5 +38,57 @@ export async function getProgressChartData() {
     } catch (error) {
         console.error('Error fetching progress data:', error);
         return { success: false, error: 'Failed to fetch progress data', labels: [], data: [] };
+    }
+}
+
+export async function addAssessment(patientId: number, data: {
+    week: number;
+    upperLimb: number;
+    trunk: number;
+    fineMotor: number;
+    sensory: number;
+    therapist?: string;
+    notes?: string;
+}) {
+    try {
+        // Calculate recovery percentage automatically based on inputs
+        const total = data.upperLimb + data.trunk + data.fineMotor + data.sensory;
+        // Assume each field is out of 25 to make a total of 100 for simplicity
+        const recoveryPct = Math.min(100, Math.max(0, total));
+
+        const assessment = await prisma.assessment.create({
+            data: {
+                patientId,
+                week: data.week,
+                recoveryPct,
+                upperLimb: data.upperLimb,
+                trunk: data.trunk,
+                fineMotor: data.fineMotor,
+                sensory: data.sensory,
+                therapist: data.therapist,
+                notes: data.notes
+            }
+        });
+
+        revalidatePath('/admin/patients');
+        revalidatePath(`/admin/add-patient/${patientId}`);
+        return { success: true, data: assessment };
+    } catch (error) {
+        console.error('Error adding assessment:', error);
+        return { success: false, error: 'Failed to add assessment' };
+    }
+}
+
+export async function deleteAssessment(id: number, patientId: number) {
+    try {
+        await prisma.assessment.delete({
+            where: { id }
+        });
+        revalidatePath('/admin/patients');
+        revalidatePath(`/admin/add-patient/${patientId}`);
+        return { success: true };
+    } catch (error) {
+        console.error('Error deleting assessment:', error);
+        return { success: false, error: 'Failed to delete assessment' };
     }
 }

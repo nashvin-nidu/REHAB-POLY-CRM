@@ -47,9 +47,7 @@ export default function PatientsClient({ initialPatients }: { initialPatients: P
                     <h1 className="text-20 font-bold text-adm-text tracking-tight">All Patients</h1>
                     <p className="text-xs text-adm-muted mt-1 font-mono">{initialPatients.length} registered</p>
                 </div>
-                <Link href="/admin/add-patient">
-                    <Button variant="primary" size="sm"><Plus className="w-4 h-4" /> Add Patient</Button>
-                </Link>
+                {/* Add Patient button removed as per new flow */}
             </div>
 
             <div className="flex gap-3 mb-4">
@@ -60,7 +58,7 @@ export default function PatientsClient({ initialPatients }: { initialPatients: P
                         placeholder="Search patients..."
                         value={search}
                         onChange={(e) => setSearch(e.target.value)}
-                        className="w-full bg-adm-surface border border-adm-border rounded-md py-7px pl-9 pr-3 text-12 text-adm-text outline-none focus:border-adm-accent transition-colors font-sora"
+                        className="w-full bg-adm-surface border border-adm-border rounded-md py-2 pl-9 pr-3 text-sm text-adm-text outline-none focus:border-adm-accent transition-colors font-sora"
                     />
                 </div>
                 <select
@@ -151,21 +149,18 @@ export default function PatientsClient({ initialPatients }: { initialPatients: P
                                                         variant="ghost" 
                                                         size="sm" 
                                                         className="text-[#3fb950] hover:bg-[#3fb950]/10 hover:text-[#3fb950] border border-[#3fb950]/20"
-                                                        onClick={async (e) => {
+                                                        onClick={(e) => {
                                                             e.stopPropagation();
-                                                            const res = await verifyPatient(p.id);
-                                                            if (res.success) {
-                                                                toast('Patient verified successfully', 'success');
-                                                                router.refresh();
-                                                            } else {
-                                                                toast('Failed to verify patient', 'error');
-                                                            }
+                                                            router.push(`/admin/add-patient/${p.id}`);
                                                         }}
                                                     >
                                                         Verify
                                                     </Button>
                                                 )}
-                                                <Button variant="ghost" size="sm" onClick={() => setSelectedPatientId(p.id)}>View</Button>
+                                                <Button variant="ghost" size="sm" onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    router.push(`/admin/add-patient/${p.id}`);
+                                                }}>Edit</Button>
                                             </div>
                                         </td>
                                     </tr>
