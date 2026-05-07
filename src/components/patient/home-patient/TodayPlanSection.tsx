@@ -3,16 +3,23 @@ import { Section } from './ui-blocks';
 
 interface TodayPlanSectionProps {
     onNavigate: (tab: string) => void;
+    assignedExercises: any[];
 }
 
-export function TodayPlanSection({ onNavigate }: TodayPlanSectionProps) {
-    const exercises = [
-        { name: 'Biceps Curl', duration: '12 min', done: true },
-        { name: 'Diaphragmatic Breathing', duration: '10 min', done: true },
-        { name: 'Seated Trunk Balance', duration: '12 min', done: true },
-        { name: 'Wrist Extension', duration: '10 min', done: false },
-        { name: 'Triceps Strengthening', duration: '15 min', done: false }
-    ];
+export function TodayPlanSection({ onNavigate, assignedExercises }: TodayPlanSectionProps) {
+    // Sort assigned exercises by difficulty (BEGINNER -> INTERMEDIATE -> ADVANCED)
+    const sortedExercises = [...assignedExercises].sort((a, b) => {
+        const diffA = a.exercise?.difficulty === 'BEGINNER' ? 1 : a.exercise?.difficulty === 'INTERMEDIATE' ? 2 : 3;
+        const diffB = b.exercise?.difficulty === 'BEGINNER' ? 1 : b.exercise?.difficulty === 'INTERMEDIATE' ? 2 : 3;
+        return diffA - diffB;
+    });
+
+    const exercises = sortedExercises.map(ex => ({
+        name: ex.exercise?.name || 'Exercise',
+        duration: `${ex.durationMins} min`,
+        done: false, // In a real app we'd track daily completion of each exercise
+        difficulty: ex.exercise?.difficulty || 'BEGINNER'
+    }));
 
     return (
         <Section title="Today's Plan" action="3/5 done">
@@ -27,6 +34,7 @@ export function TodayPlanSection({ onNavigate }: TodayPlanSectionProps) {
                                 <span className="text-9 font-mono text-pat-muted mt-1">{ex.duration}</span>
                             </div>
                             <div className={`text-11 font-bold leading-snug mt-1 ${ex.done ? 'text-pat-muted' : 'text-pat-text'}`}>{ex.name}</div>
+                            <div className="text-8 font-bold tracking-widest uppercase text-pat-blue/70">{ex.difficulty}</div>
                         </div>
                     ))}
                 </div>

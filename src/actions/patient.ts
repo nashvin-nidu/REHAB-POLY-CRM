@@ -224,13 +224,23 @@ export async function getCurrentPatientProfile() {
         const patient = await prisma.patient.findFirst({
             where: { isVerified: true },
             include: {
-                assessments: { orderBy: { date: 'desc' }, take: 1 }
+                assessments: { orderBy: { date: 'desc' }, take: 1 },
+                assignedExercises: { include: { exercise: true } },
+                dailyCheckIns: { orderBy: { dateString: 'desc' }, take: 1 },
+                medications: { orderBy: { date: 'desc' }, take: 5 },
+                notifications: { orderBy: { createdAt: 'desc' }, take: 5 }
             }
         });
         if (!patient) {
             // fallback to first patient if no verified patients
             const fallback = await prisma.patient.findFirst({
-                 include: { assessments: { orderBy: { date: 'desc' }, take: 1 } }
+                 include: { 
+                     assessments: { orderBy: { date: 'desc' }, take: 1 },
+                     assignedExercises: { include: { exercise: true } },
+                     dailyCheckIns: { orderBy: { dateString: 'desc' }, take: 1 },
+                     medications: { orderBy: { date: 'desc' }, take: 5 },
+                     notifications: { orderBy: { createdAt: 'desc' }, take: 5 }
+                 }
             });
             if (!fallback) return { success: false as const, error: 'No patients found' };
             return { success: true as const, data: fallback };

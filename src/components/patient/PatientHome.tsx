@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useToast } from '@/components/ui/Toast';
 import {
@@ -19,8 +19,14 @@ export function PatientHome({ patient }: { patient: any }) {
     const { toast } = useToast();
     const router = useRouter();
 
-    const [pain, setPain] = useState<number | null>(null);
-    const [mood, setMood] = useState<string | null>(null);
+    const daily = patient.dailyCheckIns?.[0] || {};
+    const [pain, setPain] = useState<number | null>(daily.pain ?? null);
+    const [mood, setMood] = useState<string | null>(daily.mood ?? null);
+
+    useEffect(() => {
+        // Just calling a server action to seed initial meds/notifications if empty
+        import('@/actions/patient-daily').then(m => m.seedDailyDataIfNeeded(patient.id));
+    }, [patient.id]);
 
     const handleNavigate = (tab: string) => {
         if (tab === 'home') router.push('/user');
@@ -47,8 +53,10 @@ export function PatientHome({ patient }: { patient: any }) {
                         />
                         <TodayPlanSection
                             onNavigate={handleNavigate}
+                            assignedExercises={patient.assignedExercises || []}
                         />
                         <DailyCheckInSection
+                            patientId={patient.id}
                             pain={pain}
                             setPain={setPain}
                             mood={mood}
@@ -58,9 +66,11 @@ export function PatientHome({ patient }: { patient: any }) {
 
                     {/* Right Column */}
                     <div className="flex flex-col mt-3 mb-10 lg:mt-0">
-                        <WaterIntakeSection />
-                        <MedicationsSection />
+                        <WaterIntakeSection patientId={patient.id} initialWater={daily.water || 0} />
+                        <MedicationsSection medications={patient.medications || []} />
                         <NotificationsSection
+                            patientId={patient.id}
+                            notifications={patient.notifications || []}
                             onClear={() => toast('Notifications cleared', 'success')}
                         />
                         <EmergencyContactSection

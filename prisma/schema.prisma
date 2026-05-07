@@ -130,6 +130,9 @@ model Patient {
   assessments       Assessment[]
   assignedExercises AssignedExercise[]
   reports           PatientReport[]
+  dailyCheckIns     DailyCheckIn[]
+  medications       Medication[]
+  notifications     Notification[]
 }
 
 model EmergencyContact {
@@ -218,4 +221,39 @@ model PatientReport {
   updatedAt DateTime @updatedAt
 
   patient   Patient  @relation(fields: [patientId], references: [id], onDelete: Cascade)
+}
+
+model DailyCheckIn {
+  id          Int      @id @default(autoincrement())
+  patientId   Int
+  dateString  String   // "YYYY-MM-DD"
+  water       Int      @default(0)
+  pain        Int?
+  mood        String?
+
+  patient Patient @relation(fields: [patientId], references: [id], onDelete: Cascade)
+  @@unique([patientId, dateString])
+}
+
+model Medication {
+  id        Int      @id @default(autoincrement())
+  patientId Int
+  name      String
+  dosage    String
+  time      String
+  taken     Boolean  @default(false)
+  date      DateTime @default(now())
+
+  patient Patient @relation(fields: [patientId], references: [id], onDelete: Cascade)
+}
+
+model Notification {
+  id        Int      @id @default(autoincrement())
+  patientId Int
+  title     String
+  message   String
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  patient Patient @relation(fields: [patientId], references: [id], onDelete: Cascade)
 }
