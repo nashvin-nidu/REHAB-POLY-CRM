@@ -13,7 +13,7 @@ export const auth = betterAuth({
         enabled: true,
     },
     baseURL: process.env.BETTER_AUTH_URL,
-    secret: process.env.AUTH_SECRET,
+    secret: process.env.BETTER_AUTH_SECRET,
     debug: true,
     trustedOrigins: [`${process.env.BETTER_AUTH_URL}`],
     plugins: [nextCookies(), admin({
