@@ -127,6 +127,7 @@ model Patient {
   activities        ActivityLog[]
   assessments       Assessment[]
   assignedExercises AssignedExercise[]
+  reports           PatientReport[]
 }
 
 model EmergencyContact {
@@ -166,6 +167,8 @@ model ExerciseLibrary {
   target       String
   instructions String
   emoji        String
+  youtubeUrl   String?
+  duration     Int                @default(15)
 
   assignedExercises AssignedExercise[]
 }
@@ -201,4 +204,16 @@ model ActivityLog {
   color     String?
   createdAt DateTime @default(now())
   patient   Patient? @relation(fields: [patientId], references: [id], onDelete: SetNull)
+}
+
+model PatientReport {
+  id        Int      @id @default(autoincrement())
+  patientId Int
+  name      String
+  type      String   // 'photo' or 'pdf'
+  url       String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  patient   Patient  @relation(fields: [patientId], references: [id], onDelete: Cascade)
 }

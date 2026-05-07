@@ -12,7 +12,13 @@ export const patientSchema = z.object({
     therapist: z.string().optional().or(z.literal('')),
     program: z.string().optional().or(z.literal('')),
     notes: z.string().optional().or(z.literal('')),
-    status: z.enum(['ACTIVE', 'CRITICAL'])
+    status: z.enum(['ACTIVE', 'CRITICAL']),
+    reports: z.array(z.object({
+        name: z.string(),
+        type: z.string(),
+        base64: z.string(),
+        fileName: z.string()
+    })).optional()
 });
 
 export type PatientFormValues = z.infer<typeof patientSchema>;

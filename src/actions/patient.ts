@@ -3,6 +3,15 @@
 import prisma from '@/lib/prisma';
 import { revalidatePath } from 'next/cache';
 import { patientSchema, PatientFormValues } from '@/lib/validations/patient';
+import fs from 'fs';
+import path from 'path';
+import { v2 as cloudinary } from 'cloudinary';
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 // ── Infer types directly from Prisma queries ──
 // We use Awaited<ReturnType<>> instead of importing types from '@prisma/client' 
@@ -132,6 +141,37 @@ export async function createPatient(data: PatientFormValues) {
                 }
             }
         });
+
+        // Handle report uploads if any
+        if (validatedData.data.reports && validatedData.data.reports.length > 0) {
+            const reportsData = [];
+
+            for (const report of validatedData.data.reports) {
+                try {
+                    // Upload base64 data to Cloudinary
+                    const uploadResponse = await cloudinary.uploader.upload(report.base64, {
+                        folder: 'neuropath/reports',
+                        resource_type: 'auto'
+                    });
+                    
+                    reportsData.push({
+                        patientId: patient.id,
+                        name: report.name,
+                        type: report.type,
+                        url: uploadResponse.secure_url
+                    });
+                } catch (err) {
+                    console.error("Cloudinary upload error:", err);
+                    // Optionally handle upload failures (e.g. continue with other files, or return error)
+                }
+            }
+
+            if (reportsData.length > 0) {
+                await prisma.patientReport.createMany({
+                    data: reportsData
+                });
+            }
+        }
 
         revalidatePath('/admin/patients');
         return { success: true as const, data: patient };
