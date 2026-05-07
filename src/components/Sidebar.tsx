@@ -76,7 +76,10 @@ export function Sidebar() {
             })}
 
             <div className="mt-auto px-4 pt-3 border-t border-adm-border2">
-                <button className="w-full flex items-center gap-2 bg-adm-card hover:bg-white/5 transition-colors cursor-pointer rounded-lg px-2.5 py-2 text-left border border-transparent hover:border-adm-border">
+                <button 
+                    onClick={() => window.location.href = '/login'}
+                    className="w-full flex items-center gap-2 bg-adm-card hover:bg-white/5 transition-colors cursor-pointer rounded-lg px-2.5 py-2 text-left border border-transparent hover:border-adm-border"
+                >
                     <div className="w-7 h-7 rounded-md bg-[#2f81f7] flex items-center justify-center text-11 font-bold text-white shrink-0">
                         DR
                     </div>
@@ -84,7 +87,7 @@ export function Sidebar() {
                         <div className="text-xs font-semibold text-adm-text">Dr. Sarah Chen</div>
                         <div className="text-10 text-adm-muted">Lead Neurologist</div>
                     </div>
-                    <LogOut size={14} className="text-adm-muted shrink-0" />
+                    <LogOut size={14} className="text-adm-muted shrink-0 group-hover:text-adm-danger transition-colors" />
                 </button>
             </div>
         </aside>
