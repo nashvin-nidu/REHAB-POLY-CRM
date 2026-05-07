@@ -2,25 +2,33 @@
 
 import React, { useState, useMemo } from 'react';
 import { Button } from '@/components/ui/Button';
-import { Plus, Search } from 'lucide-react';
+import { Plus, Search, BadgeCheck, ShieldAlert } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { PatientWithAssessments } from '@/actions/patient';
+import { PatientWithAssessments, verifyPatient } from '@/actions/patient';
 import PatientModal from './patient-modal';
+import { useToast } from '@/components/ui/Toast';
 
 export default function PatientsClient({ initialPatients }: { initialPatients: PatientWithAssessments[] }) {
     const router = useRouter();
+    const { toast } = useToast();
     const [search, setSearch] = useState('');
     const [filter, setFilter] = useState('');
+    const [verifyFilter, setVerifyFilter] = useState('');
     const [selectedPatientId, setSelectedPatientId] = useState<number | null>(null);
 
     const filteredPatients = useMemo(() => {
         return initialPatients.filter(p => {
             const matchSearch = (p.firstName + ' ' + p.lastName).toLowerCase().includes(search.toLowerCase());
             const matchFilter = filter ? p.status === filter : true;
-            return matchSearch && matchFilter;
+            
+            let matchVerify = true;
+            if (verifyFilter === 'VERIFIED') matchVerify = p.isVerified === true;
+            if (verifyFilter === 'UNVERIFIED') matchVerify = p.isVerified !== true;
+
+            return matchSearch && matchFilter && matchVerify;
         });
-    }, [initialPatients, search, filter]);
+    }, [initialPatients, search, filter, verifyFilter]);
 
     const getStatusTag = (status: string) => {
         const map: Record<string, string> = {
@@ -65,6 +73,15 @@ export default function PatientsClient({ initialPatients }: { initialPatients: P
                     <option value="CRITICAL">Critical</option>
                     <option value="DISCHARGED">Discharged</option>
                 </select>
+                <select
+                    value={verifyFilter}
+                    onChange={(e) => setVerifyFilter(e.target.value)}
+                    className="bg-adm-surface border border-adm-border rounded-md px-3 py-7px text-12 text-adm-text outline-none focus:border-adm-accent font-sora min-w-130px"
+                >
+                    <option value="">All Users</option>
+                    <option value="VERIFIED">Verified</option>
+                    <option value="UNVERIFIED">Unverified</option>
+                </select>
             </div>
 
             <div className="bg-adm-card border border-adm-border rounded-xl overflow-hidden shadow-sm">
@@ -79,14 +96,19 @@ export default function PatientsClient({ initialPatients }: { initialPatients: P
                                 <th className="text-10 font-bold tracking-wide uppercase text-adm-muted p-3 px-4 bg-adm-surface border-b border-adm-border">Week</th>
                                 <th className="text-10 font-bold tracking-wide uppercase text-adm-muted p-3 px-4 bg-adm-surface border-b border-adm-border">Recovery</th>
                                 <th className="text-10 font-bold tracking-wide uppercase text-adm-muted p-3 px-4 bg-adm-surface border-b border-adm-border">Status</th>
+                                <th className="text-10 font-bold tracking-wide uppercase text-adm-muted p-3 px-4 bg-adm-surface border-b border-adm-border text-center">Verified</th>
                                 <th className="text-10 font-bold tracking-wide uppercase text-adm-muted p-3 px-4 bg-adm-surface border-b border-adm-border text-right">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {filteredPatients.map(p => {
+                            {filteredPatients.map((p: any) => {
                                 const age = p.dob ? Math.floor((new Date().getTime() - new Date(p.dob).getTime()) / (365.25 * 24 * 3600 * 1000)) : '--';
                                 const latestAssessment = p.assessments?.[0];
-                                const week = latestAssessment?.week || 1;
+                                
+                                const week = p.isVerified && p.verifiedAt 
+                                    ? Math.max(1, Math.floor((new Date().getTime() - new Date(p.verifiedAt).getTime()) / (7 * 24 * 3600 * 1000)) + 1) 
+                                    : '--';
+
                                 const recoveryPct = latestAssessment?.recoveryPct || 0;
 
                                 return (
@@ -105,7 +127,7 @@ export default function PatientsClient({ initialPatients }: { initialPatients: P
                                         <td className="p-3 px-4 text-xs text-adm-muted font-mono">{age}y / {p.gender[0]}</td>
                                         <td className="p-3 px-4 text-xs"><span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-10 font-bold uppercase tracking-wide border text-adm-teal bg-adm-teal/10 border-adm-teal/20">{p.injuryLevel}</span></td>
                                         <td className="p-3 px-4 text-xs"><span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-10 font-bold uppercase tracking-wide border text-adm-muted bg-adm-muted/10 border-adm-muted/20">{p.ais}</span></td>
-                                        <td className="p-3 px-4 text-11 font-mono text-adm-muted">W{week}</td>
+                                        <td className="p-3 px-4 text-11 font-mono text-adm-muted">{week === '--' ? '--' : `W${week}`}</td>
                                         <td className="p-3 px-4">
                                             <div className="flex items-center gap-2 w-24">
                                                 <div className="h-1.5 w-full bg-adm-border rounded-full overflow-hidden">
@@ -115,8 +137,36 @@ export default function PatientsClient({ initialPatients }: { initialPatients: P
                                             </div>
                                         </td>
                                         <td className="p-3 px-4">{getStatusTag(p.status)}</td>
+                                        <td className="p-3 px-4 text-center">
+                                            {p.isVerified ? (
+                                                <BadgeCheck className="w-5 h-5 text-[#3fb950] mx-auto" />
+                                            ) : (
+                                                <ShieldAlert className="w-5 h-5 text-adm-muted mx-auto" />
+                                            )}
+                                        </td>
                                         <td className="p-3 px-4 text-right">
-                                            <Button variant="ghost" size="sm" onClick={() => setSelectedPatientId(p.id)}>View</Button>
+                                            <div className="flex justify-end gap-2">
+                                                {!p.isVerified && (
+                                                    <Button 
+                                                        variant="ghost" 
+                                                        size="sm" 
+                                                        className="text-[#3fb950] hover:bg-[#3fb950]/10 hover:text-[#3fb950] border border-[#3fb950]/20"
+                                                        onClick={async (e) => {
+                                                            e.stopPropagation();
+                                                            const res = await verifyPatient(p.id);
+                                                            if (res.success) {
+                                                                toast('Patient verified successfully', 'success');
+                                                                router.refresh();
+                                                            } else {
+                                                                toast('Failed to verify patient', 'error');
+                                                            }
+                                                        }}
+                                                    >
+                                                        Verify
+                                                    </Button>
+                                                )}
+                                                <Button variant="ghost" size="sm" onClick={() => setSelectedPatientId(p.id)}>View</Button>
+                                            </div>
                                         </td>
                                     </tr>
                                 )

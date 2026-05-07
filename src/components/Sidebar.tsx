@@ -1,8 +1,9 @@
 'use client';
 
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useAppStore } from '@/store/useAppStore';
+import { getSidebarCounts } from '@/actions/dashboard';
 import {
     LayoutDashboard,
     Users,
@@ -16,17 +17,24 @@ import {
 
 export function Sidebar() {
     const pathname = usePathname();
-    const patientsCount = useAppStore(s => s.patients.length);
-    const exerciseCount = useAppStore(s => s.exercises.length);
+    const [counts, setCounts] = useState({ patients: 0, exercises: 0 });
+
+    useEffect(() => {
+        getSidebarCounts().then(res => {
+            if (res.success) {
+                setCounts({ patients: res.patientsCount || 0, exercises: res.exerciseCount || 0 });
+            }
+        });
+    }, [pathname]); // Refresh counts on navigation
 
     const navItems = [
         { section: 'Overview' },
         { name: 'Dashboard', href: '/admin', icon: LayoutDashboard },
         { section: 'Patients' },
-        { name: 'All Patients', href: '/admin/patients', icon: Users, badge: patientsCount, badgeColor: 'bg-adm-accent/15 text-adm-accent' },
+        { name: 'All Patients', href: '/admin/patients', icon: Users, badge: counts.patients, badgeColor: 'bg-adm-accent/15 text-adm-accent' },
         { name: 'Register Patient', href: '/admin/add-patient', icon: UserPlus },
         { section: 'Clinical' },
-        { name: 'Exercise Library', href: '/admin/exercises', icon: Activity, badge: exerciseCount, badgeColor: 'bg-adm-accent/15 text-adm-accent' },
+        { name: 'Exercise Library', href: '/admin/exercises', icon: Activity, badge: counts.exercises, badgeColor: 'bg-adm-accent/15 text-adm-accent' },
         { name: 'Progress Reports', href: '/admin/progress', icon: TrendingUp },
         { name: 'Appointments', href: '/admin/appointments', icon: Calendar },
         { section: 'System' },

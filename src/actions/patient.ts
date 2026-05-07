@@ -197,3 +197,20 @@ export async function updatePatientStatus(id: number, status: 'ACTIVE' | 'DISCHA
         return { success: false as const, error: 'Failed to update patient status' };
     }
 }
+
+/**
+ * Verifies a patient
+ */
+export async function verifyPatient(id: number) {
+    try {
+        const patient = await prisma.patient.update({
+            where: { id },
+            data: { isVerified: true, verifiedAt: new Date() }
+        });
+        revalidatePath('/admin/patients');
+        return { success: true as const, data: patient };
+    } catch (error) {
+        console.error(`Error verifying patient ${id}:`, error);
+        return { success: false as const, error: 'Failed to verify patient' };
+    }
+}
