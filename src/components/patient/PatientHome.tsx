@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { useAppStore } from '@/store/useAppStore';
+import { useRouter } from 'next/navigation';
 import { useToast } from '@/components/ui/Toast';
 import {
     PatientHeader,
@@ -15,14 +15,18 @@ import {
     EmergencyContactSection
 } from './home-patient';
 
-export function PatientHome({ onNavigate }: { onNavigate: (tab: string) => void }) {
+export function PatientHome({ patient }: { patient: any }) {
     const { toast } = useToast();
-    const activePatientId = useAppStore(s => s.activePatientId);
-    const patients = useAppStore(s => s.patients);
-    const patient = patients.find(p => p.id === activePatientId);
+    const router = useRouter();
 
     const [pain, setPain] = useState<number | null>(null);
     const [mood, setMood] = useState<string | null>(null);
+
+    const handleNavigate = (tab: string) => {
+        if (tab === 'home') router.push('/user');
+        else if (tab === 'ai') router.push('/user/chat');
+        else router.push(`/user/${tab}`);
+    };
 
     if (!patient) return null;
 
@@ -35,14 +39,14 @@ export function PatientHome({ onNavigate }: { onNavigate: (tab: string) => void 
                     {/* Left Column */}
                     <div className="flex flex-col">
                         <QuickActionsSection
-                            onNavigate={onNavigate}
+                            onNavigate={handleNavigate}
                             onCallTherapist={() => toast('📞 Connecting to Therapist...', 'info')}
                         />
                         <HealthMetricsSection
                             onSync={() => toast('Syncing health data...', 'info')}
                         />
                         <TodayPlanSection
-                            onNavigate={onNavigate}
+                            onNavigate={handleNavigate}
                         />
                         <DailyCheckInSection
                             pain={pain}

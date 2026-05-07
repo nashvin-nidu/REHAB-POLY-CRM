@@ -214,3 +214,30 @@ export async function verifyPatient(id: number) {
         return { success: false as const, error: 'Failed to verify patient' };
     }
 }
+
+/**
+ * Fetches the current patient profile for the patient app.
+ * For now, this just returns the first verified patient.
+ */
+export async function getCurrentPatientProfile() {
+    try {
+        const patient = await prisma.patient.findFirst({
+            where: { isVerified: true },
+            include: {
+                assessments: { orderBy: { date: 'desc' }, take: 1 }
+            }
+        });
+        if (!patient) {
+            // fallback to first patient if no verified patients
+            const fallback = await prisma.patient.findFirst({
+                 include: { assessments: { orderBy: { date: 'desc' }, take: 1 } }
+            });
+            if (!fallback) return { success: false as const, error: 'No patients found' };
+            return { success: true as const, data: fallback };
+        }
+        return { success: true as const, data: patient };
+    } catch (error) {
+        console.error('Error fetching current patient profile:', error);
+        return { success: false as const, error: 'Failed to fetch current patient profile' };
+    }
+}

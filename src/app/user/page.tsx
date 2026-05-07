@@ -1,12 +1,18 @@
-'use client';
 import { PatientHome } from '@/components/patient/PatientHome';
-import { useRouter } from 'next/navigation';
+import { getCurrentPatientProfile } from '@/actions/patient';
 
-export default function UserHomePage() {
-    const router = useRouter();
-    return <PatientHome onNavigate={(tab) => {
-        if (tab === 'home') router.push('/user');
-        else if (tab === 'ai') router.push('/user/chat');
-        else router.push(`/user/${tab}`);
-    }} />;
+export default async function UserHomePage() {
+    const res = await getCurrentPatientProfile();
+    const patient = res.success ? res.data : null;
+
+    if (!patient) {
+        return (
+            <div className="flex items-center justify-center h-full text-pat-muted flex-col gap-2">
+                <p>No patient profile found.</p>
+                <p className="text-xs">Please register a patient in the admin panel first.</p>
+            </div>
+        );
+    }
+
+    return <PatientHome patient={patient} />;
 }
