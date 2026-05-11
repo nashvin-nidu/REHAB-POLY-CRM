@@ -24,7 +24,6 @@ export function PatientHome({ patient }: { patient: any }) {
     const [mood, setMood] = useState<string | null>(daily.mood ?? null);
 
     useEffect(() => {
-        // Just calling a server action to seed initial meds/notifications if empty
         import('@/actions/patient-daily').then(m => m.seedDailyDataIfNeeded(patient.id));
     }, [patient.id]);
 
