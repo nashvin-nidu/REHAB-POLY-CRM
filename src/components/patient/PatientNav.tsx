@@ -1,12 +1,14 @@
 'use client';
 
 import React from 'react';
-import { Home, Activity, MessageSquare, Target, Calendar } from 'lucide-react';
+import { Home, Activity, MessageSquare, Target, Calendar, LogOut } from 'lucide-react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
+import { signOut } from '@/lib/auth-client';
 
 export function PatientNav() {
     const pathname = usePathname();
+    const router = useRouter();
     const tabs = [
         { href: '/user', exact: true, label: 'Home', icon: Home },
         { href: '/user/exercises', exact: false, label: 'Exercises', icon: Activity },
@@ -14,6 +16,16 @@ export function PatientNav() {
         { href: '/user/goals', exact: false, label: 'Goals', icon: Target },
         { href: '/user/schedule', exact: false, label: 'Schedule', icon: Calendar },
     ];
+
+    const handleLogout = async () => {
+        await signOut({
+            fetchOptions: {
+                onSuccess: () => {
+                    router.push('/login');
+                },
+            },
+        });
+    };
 
     return (
         <div className="flex md:flex-col bg-pat-card border-t md:border-t-0 md:border-r border-pat-border px-2.5 py-2 md:py-6 md:w-100px shrink-0 justify-around md:justify-start gap-0 md:gap-4 md:items-center">
@@ -35,6 +47,18 @@ export function PatientNav() {
                     </Link>
                 );
             })}
+            
+            <button
+                onClick={handleLogout}
+                className="flex-1 md:flex-none md:w-full flex flex-col items-center justify-center gap-1.5 cursor-pointer p-2 rounded-xl transition-all hover:bg-red-50 group"
+            >
+                <div className="w-10 h-10 rounded-xl flex items-center justify-center text-pat-muted group-hover:text-red-500 transition-colors">
+                    <LogOut size={20} strokeWidth={1.8} />
+                </div>
+                <span className="text-10 md:text-11 font-bold tracking-wide text-pat-muted group-hover:text-red-600 transition-colors">
+                    Logout
+                </span>
+            </button>
         </div>
     );
 }

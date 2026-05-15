@@ -41,8 +41,15 @@ export function HealthMetricsSection({ onSync }: HealthMetricsSectionProps) {
             toast(`Successfully paired with ${device.name}!`, 'success');
 
         } catch (error: any) {
+            if (error.name === 'NotFoundError' || error.message?.toLowerCase().includes('cancel')) {
+                toast('Sync cancelled', 'info');
+                return;
+            }
+
             console.error("Bluetooth sync error:", error);
-            // Fallback Simulation for MVP purposes if user cancels or doesn't have a BLE device handy
+
+
+            // Fallback Simulation for MVP purposes if user doesn't have a BLE device handy
             toast('No device found. Simulating Bluetooth sync for demo...', 'info');
             setHeartRate(Math.floor(Math.random() * 20) + 70); // Random 70-90
             setSteps(Math.floor(Math.random() * 15) + 45); // Random 45-60
