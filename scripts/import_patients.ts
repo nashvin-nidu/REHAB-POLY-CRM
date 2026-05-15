@@ -3,6 +3,8 @@ import fs from 'fs';
 import { randomUUID } from 'crypto';
 
 const prisma = new PrismaClient();
+// npx tsx scripts/import_patients.ts
+
 
 async function main() {
   console.log("Reading chatSQLite.json...");
