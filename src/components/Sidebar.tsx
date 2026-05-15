@@ -2,8 +2,9 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import { getSidebarCounts } from '@/actions/dashboard';
+import { signOut } from '@/lib/auth-client';
 import {
     LayoutDashboard,
     Users,
@@ -17,6 +18,7 @@ import {
 
 export function Sidebar() {
     const pathname = usePathname();
+    const router = useRouter();
     const [counts, setCounts] = useState({ patients: 0, exercises: 0 });
 
     useEffect(() => {
@@ -26,6 +28,16 @@ export function Sidebar() {
             }
         });
     }, [pathname]); // Refresh counts on navigation
+
+    const handleLogout = async () => {
+        await signOut({
+            fetchOptions: {
+                onSuccess: () => {
+                    router.push('/login');
+                },
+            },
+        });
+    };
 
     const navItems = [
         { section: 'Overview' },
@@ -76,14 +88,14 @@ export function Sidebar() {
 
             <div className="mt-auto px-4 pt-3 border-t border-adm-border2">
                 <button 
-                    onClick={() => window.location.href = '/login'}
+                    onClick={handleLogout}
                     className="w-full flex items-center gap-2 bg-adm-card hover:bg-white/5 transition-colors cursor-pointer rounded-lg px-2.5 py-2 text-left border border-transparent hover:border-adm-border"
                 >
                     <div className="w-7 h-7 rounded-md bg-[#2f81f7] flex items-center justify-center text-11 font-bold text-white shrink-0">
                         DR
                     </div>
                     <div className="flex-1">
-                        <div className="text-xs font-semibold text-adm-text">Dr. Sarah Chen</div>
+                        <div className="text-xs font-semibold text-adm-text">Dr. Kiran</div>
                         <div className="text-10 text-adm-muted">Lead Neurologist</div>
                     </div>
                     <LogOut size={14} className="text-adm-muted shrink-0 group-hover:text-adm-danger transition-colors" />
