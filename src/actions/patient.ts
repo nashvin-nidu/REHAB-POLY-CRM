@@ -28,7 +28,6 @@ async function _getPatients() {
         include: {
             assessments: {
                 orderBy: { date: 'desc' },
-                take: 1,
             },
         },
     });
