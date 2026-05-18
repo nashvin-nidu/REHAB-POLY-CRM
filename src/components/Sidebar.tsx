@@ -13,7 +13,8 @@ import {
     TrendingUp,
     Calendar,
     Clock,
-    LogOut
+    LogOut,
+    LogIn
 } from 'lucide-react';
 
 export function Sidebar() {
