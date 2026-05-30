@@ -15,7 +15,6 @@ export function AppSwitcher() {
     const [time, setTime] = useState('--:--');
 
     useEffect(() => {
-        // Setting initial time
         setTime(new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
         const timer = setInterval(() => {
             setTime(new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
@@ -46,7 +45,7 @@ export function AppSwitcher() {
             <div className="ml-auto flex items-center gap-2">
                 <div className="flex items-center gap-1.5 text-11 font-mono text-adm-accent2">
                     <span className="w-1.5 h-1.5 rounded-full bg-adm-accent2 shadow-[0_0_4px_rgba(63,185,80,0.4)] animate-pulse" />
-                    Zustand · Live
+                     · Live
                 </div>
                 <div className="text-11 font-mono text-adm-muted min-w-46px text-right">
                     {time}
